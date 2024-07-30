@@ -21,5 +21,5 @@ return $request->user();
 
 
 Route::apiResource('tasks', TaskController::class)->only([
-    'index', 'show',
+    'index', 'show','store', 'update', 'destroy'
 ]);
