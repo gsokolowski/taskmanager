@@ -8,6 +8,10 @@ use App\Http\Resources\TaskCollection;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\QueryBuilder;
+
+
+
 
 class TaskController extends Controller
 {
@@ -16,13 +20,11 @@ class TaskController extends Controller
     public function index(Request $request)
     {
 
-        // $task=Task::all();
-        // return response()->json($task);
+        $tasks = QueryBuilder::for(Task::class)
+        ->allowedFilters('is_done')
+        ->paginate();
 
-        //return response()->json(Task::all());
-
-        // wrapped in data as collection as we use TaskCollection class in TaskController
-        return new TaskCollection(Task::all());
+        return new TaskCollection($tasks);
     }
 
     // GET http://taskmanager.local/api/tasks/1
