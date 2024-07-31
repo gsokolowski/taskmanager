@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTaskRequest;
+use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Resources\TaskCollection;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
@@ -27,7 +28,7 @@ class TaskController extends Controller
     // GET http://taskmanager.local/api/tasks/1
     public function show(Task $task)
     {
-        return new TaskResource($task);
+        return new TaskResource($task);     // 200 OK
     }
 
     // POST http://taskmanager.local/api/tasks
@@ -38,13 +39,31 @@ class TaskController extends Controller
 
         $task = Task::create($validated);
 
-        return new TaskResource($task);
+        return new TaskResource($task);     //  201 Created
+
     }
 
-    // public function update(Request $request, Task $task)
-    // {
-    //     $task->update($request->all());
-    //     return response()->json($task);
-    // }
+     // PUT http://taskmanager.local/api/tasks/1
+    public function update(UpdateTaskRequest $request, Task $task)
+    {
+
+        $validated = $request->validated();
+
+        $task->update($validated);
+
+        return new TaskResource($task);     //  200 OK
+
+    }
+
+    // DELETE http://taskmanager.local/api/tasks/1
+    public function destroy(Request $request, Task $task)
+    {
+
+        $task->delete();
+
+
+        return response()->noContent();     // 204 no content
+
+    }
 
 }
