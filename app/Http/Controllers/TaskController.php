@@ -11,8 +11,6 @@ use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 
 
-
-
 class TaskController extends Controller
 {
 
@@ -42,7 +40,6 @@ class TaskController extends Controller
     {
 
         $validated = $request->validated();
-
         $task = Task::create($validated);
 
         return new TaskResource($task);     //  201 Created
@@ -54,7 +51,6 @@ class TaskController extends Controller
     {
 
         $validated = $request->validated();
-
         $task->update($validated);
 
         return new TaskResource($task);     //  200 OK
@@ -66,7 +62,6 @@ class TaskController extends Controller
     {
 
         $task->delete();
-
 
         return response()->noContent();     // 204 no content
 
