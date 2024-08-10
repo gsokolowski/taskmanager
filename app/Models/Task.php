@@ -32,7 +32,7 @@ class Task extends Model
     protected static function booted(): void
     {
         static::addGlobalScope('creator', function (Builder $builder) {
-            $builder->where('creator_id', 3); //Auth::id() tu jest problem
+            $builder->where('creator_id', Auth::id());
         });
     }
 
