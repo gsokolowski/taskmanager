@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class StoreTaskRequest extends FormRequest
 {
@@ -22,7 +23,28 @@ class StoreTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' =>'required|max:255',
+            'title' => [
+                'sometimes',
+                'required',
+                'max:255',
+            ],
+            'is_done' => [
+                'sometimes',
+                'boolean',
+            ],
+            'project_id' => [
+                'nullable',
+                function ($attribute, $value, $fail) { //$attribute as the name of the field, $value as the value of the field
+
+                    $project = \App\Models\Project::where('id', $value)
+                        ->where('creator_id', Auth::id())
+                        ->first();
+
+                    if (!$project) {
+                        $fail('The selected project does not exist or does not belong to you.');
+                    }
+                },
+            ],
         ];
     }
 }
