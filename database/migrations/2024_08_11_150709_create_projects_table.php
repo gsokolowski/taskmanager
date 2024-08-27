@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->foreignId('creator_id')->constrained('users'); // creator_id = user_id
+            // creator_id = user_id
+            // projects will be deleted when creator is deleted through creator_id on user model relationship
+            $table->foreignId('creator_id')->constrained('users')->cascadeOnDelete();
             $table->timestamps();
         });
     }

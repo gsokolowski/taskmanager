@@ -15,7 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->boolean('is_done')->default(false);
+            // tasks will be deleted when creator is deleted through creator_id on user model relationship
             $table->foreignId('creator_id')->constrained('users')->cascadeOnDelete();
+            // tasks will be deleted when project is deleted through project_id relationship
+            $table->foreignId('project_id')->nullable()->constrained()->nullOnDelete();
             $table->timestamps();
         });
     }
