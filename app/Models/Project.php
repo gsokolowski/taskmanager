@@ -6,6 +6,7 @@ use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,6 +24,11 @@ class Project extends Model
 
     public function creator(): BelongsTo {
         return $this->belongsTo(User::class, 'creator_id');
+    }
+
+    // user belongs to many projects throught the members table we can add many prjoects to the members table
+    public function members(): BelongsToMany {
+        return $this->belongsToMany(User::class, Member::class);
     }
 
     protected static function booted(): void

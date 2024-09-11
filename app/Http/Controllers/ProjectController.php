@@ -15,7 +15,9 @@ class ProjectController extends Controller
 {
     // {{DOMAIN}}/api/projects/1
     public function show(Project $project) {
-        return (new ProjectResource($project))->load('tasks'); // add tasks to ptoject
+        return (new ProjectResource($project))
+        ->load('tasks') // add tasks to ptoject
+        ->load('members'); // add members to project
     }
 
     // {{DOMAIN}}/api/projects?include=tasks

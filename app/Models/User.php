@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -49,5 +50,11 @@ class User extends Authenticatable
 
     public function projects(): HasMany {
         return $this->hasMany(Project::class, 'creator_id');
+    }
+
+    // attach users to projects as memberships we can add many userses to project
+    public function memberships(): BelongsToMany {
+       // ai return $this->belongsToMany(Project::class, 'member', 'user_id', 'project_id');
+       return $this->belongsToMany(Project::class, Member::class);
     }
 }
