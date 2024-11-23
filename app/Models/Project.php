@@ -18,18 +18,28 @@ class Project extends Model
         'title'
     ];
 
+    // project has many tasks
     public function tasks(): HasMany {
         return $this->hasMany(Task::class);
     }
 
+    // project belongs to a user
     public function creator(): BelongsTo {
         return $this->belongsTo(User::class, 'creator_id');
     }
 
-    // user belongs to many projects throught the members table we can add many prjoects to the members table
+    // project belongs to many users throught the pivot table member
+    // we can add many projoects to the members table
     public function members(): BelongsToMany {
         return $this->belongsToMany(User::class, Member::class);
     }
+
+    // scope to filter projects by creator
+    // we can use this scope in the controller to filter the projects by the creator
+    // checks is sign in user is the creator of the project
+    // if not, it will not return any project
+    // this is a global scope
+    // we can use this scope in the controller to filter the projects by the creator
 
     protected static function booted(): void
     {

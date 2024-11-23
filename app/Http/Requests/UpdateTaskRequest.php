@@ -33,16 +33,23 @@ class UpdateTaskRequest extends FormRequest
                 'sometimes',
                 'boolean',
             ],
+            // custom validation rule to check if this specific project id exists and belongs to the logged in user
             'project_id' => [
                 'nullable',
-                function ($attribute, $value, $fail) { //$attribute as the name of the field, $value as the value of the field
+                // Rule no longe can be used because it does not work with custom validation rules
+                // Rule::exists('projects', 'id')->where(function ($query) {
+                //     $query->where('creator_id', Auth::id());
+                // }),
+                // so used this instead
+                function ($attribute, $value, $fail) {
+                    //$attribute as the name of the field, $value as the value of the field
 
                     $project = \App\Models\Project::where('id', $value)
                         ->where('creator_id', Auth::id())
                         ->first();
 
                     if (!$project) {
-                        $fail('The selected project does not exist or does not belong to you.');
+                        $fail('You are trying to asign task to project id which does not exist or does not belong to you.');
                     }
                 },
             ],

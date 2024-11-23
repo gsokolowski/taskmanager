@@ -26,15 +26,18 @@ class Task extends Model
         'updated_at'
     ];
 
+
+    // Task belongs to a user
     public function creator():BelongsTo {
         return $this->belongsTo(User::class, 'creator_id');
     }
 
+    // Task belongs to a project
     public function project():BelongsTo {
         return $this->belongsTo(Project::class);
     }
 
-
+    // scope to filter tasks by creator
     protected static function booted(): void
     {
         static::addGlobalScope('creator', function (Builder $builder) {

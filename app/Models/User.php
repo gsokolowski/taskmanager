@@ -44,15 +44,18 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    // user has many tasks
     public function tasks(): HasMany {
         return $this->hasMany(Task::class, 'creator_id');
     }
 
+    // user has many projects
     public function projects(): HasMany {
         return $this->hasMany(Project::class, 'creator_id');
     }
 
-    // attach users to projects as memberships we can add many userses to project
+    // user belongs to many projects throught the pivot table member
+    // we can add many users to the members table
     public function memberships(): BelongsToMany {
        // ai return $this->belongsToMany(Project::class, 'member', 'user_id', 'project_id');
        return $this->belongsToMany(Project::class, Member::class);
