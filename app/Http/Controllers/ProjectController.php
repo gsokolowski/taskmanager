@@ -13,6 +13,11 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class ProjectController extends Controller
 {
+
+    public function __construct(){
+        $this->authorizeResource(Project::class, 'project');
+    }
+
     // {{DOMAIN}}/api/projects/1
     public function show(Project $project) {
 
