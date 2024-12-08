@@ -47,4 +47,12 @@ class Project extends Model
     //         $builder->where('creator_id', Auth::id());
     //     });
     // }
+
+    protected static function booted(): void
+    {
+        // if user is a member of the project, then return true
+        static::addGlobalScope('member', function (Builder $builder) {
+            $builder->whereRelation('members', 'user_id', Auth::id());
+        });
+    }
 }

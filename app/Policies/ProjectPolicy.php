@@ -9,7 +9,7 @@ use Illuminate\Auth\Access\Response;
 class ProjectPolicy
 {
     /**
-     * Determine whether the user can view any models.
+     * Determine whether the current user can view any models.
      */
     public function viewAny(User $user): bool
     {
@@ -17,7 +17,7 @@ class ProjectPolicy
     }
 
     /**
-     * Determine whether the user can view the model.
+     * Determine whether the logged in user can view the model.
      */
     public function view(User $user, Project $project): bool
     {
@@ -25,19 +25,22 @@ class ProjectPolicy
         //var_dump($user->id, $project->creator_id);
         // return $user->id === $project->creator_id;
 
-        if($user->id === $project->creator_id) {
-            return true;
-        }
+        // if logged in user is a member of the project, then return true
+        // if($user->id === $project->creator_id) {
+        //     return true;
+        // }
 
         // var_dump($user->memberships->toArray());
         // var_dump($project->id);
 
-        if($user->memberships->contains($project->id)) {
-            return true;
-        }
+        // if logged in user is a member of the project, then return true
+        // if($user->memberships->contains($project->id)) {
+        //     return true;
+        // }
+        // return false;
 
-        return false;
-
+        //Now creator of the project is always a member f the project as well
+        return $user->memberships->contains($project->id);
 
     }
 
