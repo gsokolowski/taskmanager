@@ -14,6 +14,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 class ProjectController extends Controller
 {
 
+    // use ProjectPolicies for authorisation
     public function __construct(){
         $this->authorizeResource(Project::class, 'project');
     }

@@ -40,9 +40,9 @@ class Project extends Model
     // if not, it will not return any project
     // this is a global scope
     // we can use this scope in the controller to filter the projects by the creator
-
     // protected static function booted(): void
     // {
+    //     checks if sing in user is a creator of the project
     //     static::addGlobalScope('creator', function (Builder $builder) {
     //         $builder->where('creator_id', Auth::id());
     //     });

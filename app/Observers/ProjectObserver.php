@@ -4,11 +4,15 @@ namespace App\Observers;
 
 use App\Models\Project;
 
+
 class ProjectObserver
 {
     /**
      * Handle the Project "created" event.
      */
+    //Create observer for a model where  an observer will make
+    // sure that  creator of the project will automatically be a member of the project.
+
     public function created(Project $project): void
     {
         // add creator as a member to the project
