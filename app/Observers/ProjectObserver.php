@@ -10,12 +10,12 @@ class ProjectObserver
     /**
      * Handle the Project "created" event.
      */
-    //Create observer for a model where  an observer will make
+    // Create observer for a model where  an observer will make
     // sure that  creator of the project will automatically be a member of the project.
 
     public function created(Project $project): void
     {
-        // add creator as a member to the project
+        // add creator of the project as a member so crator of the project is also a member of the project
         $project->members()->attach($project->creator_id);
     }
 

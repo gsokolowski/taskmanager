@@ -42,7 +42,7 @@ class Project extends Model
     // we can use this scope in the controller to filter the projects by the creator
     // protected static function booted(): void
     // {
-    //     checks if sing in user is a creator of the project
+    //     checks if sign in user is a creator of the project
     //     static::addGlobalScope('creator', function (Builder $builder) {
     //         $builder->where('creator_id', Auth::id());
     //     });
@@ -51,7 +51,10 @@ class Project extends Model
     protected static function booted(): void
     {
         // if user is a member of the project, then return true
+        // addGlobalScope - automatically apply constraints to all queries for a Project model
+
         static::addGlobalScope('member', function (Builder $builder) {
+            // in the member pivot table we are looking for current authorised user to be a member of the proect as well by user_id
             $builder->whereRelation('members', 'user_id', Auth::id());
         });
     }

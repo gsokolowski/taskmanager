@@ -39,7 +39,7 @@ class ProjectPolicy
         // }
         // return false;
 
-        //Now creator of the project is always a member of the project as well
+        //Now creator of the project is also a member of the project as well so we can have only thi line
         return $user->memberships->contains($project->id);
 
     }
