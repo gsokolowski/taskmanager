@@ -49,7 +49,8 @@ class ProjectPolicy
      */
     public function create(User $user): bool
     {
-        // every sign in user has permition to create project
+        // every sign in user has permition to create project through ProjectController store methode
+        // we authorize create function
         return true;
     }
 
@@ -58,7 +59,9 @@ class ProjectPolicy
      */
     public function update(User $user, Project $project): bool
     {
-        // check is user is the creator of th project before you allow it to update
+        // check is user is the creator of th project before you allow it to update project
+        //through ProjectController update  methode
+        // we authorize update function
         return $user->id === $project->creator_id;
     }
 
@@ -67,7 +70,9 @@ class ProjectPolicy
      */
     public function delete(User $user, Project $project): bool
     {
-        // check is user is the creator of th project before you allow it to delte
+        // check is user is the creator of th project before you allow it to delete project
+        // through ProjectController delete  methode
+        // we authorize delete function
         return $user->id === $project->creator_id;
     }
 

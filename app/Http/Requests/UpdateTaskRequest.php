@@ -44,9 +44,21 @@ class UpdateTaskRequest extends FormRequest
                 function ($attribute, $value, $fail) {
                     //$attribute as the name of the field, $value as the value of the field
 
+                    // custom validation rule to check if project_id that has been passed to store is the same
+                    // as project_id of the user who is a member of. if he/she is not then do not allow to store task
+                    // if he is allowed to store that task with user who is a member of that project
+                    // Now every creator of the project is also a member of the project as we have asign this in Project observer so
+                    // checking if user is a member of the pjoject is enough
+
                     $project = \App\Models\Project::where('id', $value)
-                        ->where('creator_id', Auth::id())
-                        ->first();
+                        ->where(function($query) {
+                        $query->whereHas('members', function($q) { //  where mebers pivot table has currnet user id associated with this project
+                                    $q->where('user_id', auth()->id());
+                                });
+                    })
+                    ->first();
+
+                    //dd($project);
 
                     if (!$project) {
                         $fail('You are trying to asign task to project id which does not exist or does not belong to you.');
