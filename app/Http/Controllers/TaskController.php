@@ -15,6 +15,15 @@ use Spatie\QueryBuilder\QueryBuilder;
 class TaskController extends Controller
 {
 
+    public function __construct()
+    {
+        // instruct TaskController to map its menthods with TaskPolicies
+        // automatically map controller methods to policy methods using Laravel's conventional naming scheme
+        // authorizeResource automatically maps controller methods to policy methods
+
+        $this->authorizeResource(Task::class, 'task'); // (model class name, route parameter name that contains the model's ID is called task)
+    }
+
     //GET http://taskmanager.local/api/tasks
     public function index(Request $request)
     {

@@ -41,8 +41,27 @@ class Task extends Model
     protected static function booted(): void
     {
         static::addGlobalScope('creator', function (Builder $builder) {
-            $builder->where('creator_id', Auth::id());
+            $builder
+                // creator is authorised user id
+                ->where('creator_id', Auth::id())
+                //or wheather project_id is part of th memberships of the user
+                ->orWhereIn('project_id', Auth::user()->memberships->pluck('id'));
         });
+
+
+
+        // Sql
+        // SELECT * FROM tasks
+        // WHERE creator_id = 2
+        // OR project_id IN (SELECT project_id FROM member WHERE user_id = 2);
+
+        // or for better performance use join
+
+        // SELECT t.*
+        // FROM tasks t
+        // LEFT JOIN member m ON t.project_id = m.project_id AND m.user_id = 123
+        // WHERE t.creator_id = 123 OR m.user_id IS NOT NULL;
+
     }
 
 }

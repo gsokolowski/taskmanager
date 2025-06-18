@@ -21,7 +21,8 @@ class AuthServiceProvider extends ServiceProvider
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
         // register policy we have created
         Project::class => ProjectPolicy::class,
-        Task::class => TaskPolicy::class,
+        Task::class => TaskPolicy::class
+
     ];
 
     /**

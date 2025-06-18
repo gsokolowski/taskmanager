@@ -14,9 +14,13 @@ use Spatie\QueryBuilder\QueryBuilder;
 class ProjectController extends Controller
 {
 
-    // use ProjectPolicies for authorisation
-    public function __construct(){
-        $this->authorizeResource(Project::class, 'project');
+
+    public function __construct() {
+        // instruct ProjectController to map its menthods with ProjectPolicies
+        // automatically map controller methods to policy methods using Laravel's conventional naming scheme
+        // authorizeResource automatically maps controller methods to policy methods
+
+        $this->authorizeResource(Project::class, 'project');// (model class name, route parameter name that contains the model's ID)
     }
 
     // {{DOMAIN}}/api/projects/1
@@ -59,11 +63,13 @@ class ProjectController extends Controller
 
     public function update(UpdateProjectRequest $request, Project $project) {
         $validated = $request->validated();
+        // update project for specific user
         $project->update($validated);
         return new ProjectResource($project);
     }
 
     public function destroy(Project $project) {
+        // delete project
         $project->delete();
         return response()->noContent();
     }
