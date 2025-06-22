@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\TaskControllerIndexTest;
 
+use App\Models\Task;
 use App\Models\User;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
@@ -16,15 +17,25 @@ class TaskControllerIndexTest extends TestCase
         // as task list is accesable only by authenticated user
         //you have to create user
         $user = User::factory()->create();
-
         // then uthentiacte user using Sanctum
         Sanctum::actingAs($user);
-
+        // create task for this user
+        Task::factory()->for($user, 'creator')->create();
         // get route
         $route = route('tasks.index');
 
         // make get rquest to this route (end point) and collect response as Json
         $response = $this->getJson($route);
+        $response->assertOk()
+                    ->assertJsonCount(1,'data') // there is one task under data Json Key
+                    ->assertJsonStructure([
+                        'data' => [
+                            '*' => ['id','title','is_done','creator_id','project_id','created_at','status']
+                        ]
+                    ]);
+
+
+        // $response->dd();
 
         // check if you get back 200 http response from that request
         $response->assertStatus(200);
