@@ -22,4 +22,37 @@ class MembersController extends Controller
 
         return new UserCollection($members);
     }
+
+    public function store( Request $request, Project $project)
+    {
+        // validate incomming request check if user_id  does exist in users table
+        // simple validation here
+        $request->validate([
+            'user_id' => 'required|exists:users,id'
+        ]);
+
+        // attach user to project members pivot table
+        // use syncWithoutDetaching which will make sure user cant be attacjed
+        // to the same project more then once
+        $project->members()->syncWithoutDetaching([$request->user_id]);
+
+        // And return new list of the project members
+        $members = $project->members;
+        return new UserCollection($members);
+
+    }
+
+
+    public function destroy(Request $request, Project $project, int $member)
+    {
+        // don't allow to delete if member is not a creator of the project
+        abort_if($project->creator_id === $member, 400, 'Not allowed to remove creator from the project');
+
+        $project->members()->detach([$member]);
+
+        // And return new list of the project members
+        $members = $project->members;
+        return new UserCollection($members);
+
+    }
 }
