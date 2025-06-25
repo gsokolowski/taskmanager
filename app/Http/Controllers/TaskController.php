@@ -29,12 +29,10 @@ class TaskController extends Controller
     {
 
         $tasks = QueryBuilder::for(Task::class)
-
-        ->allowedFilters('is_done')
-        ->defaultSort('-created_at') // last data first (-)
-        ->allowedSorts(['title', 'is_done', 'created_at'])
-
-        ->paginate();
+            ->allowedFilters('is_done')
+            ->defaultSort('-created_at') // last data first (-)
+            ->allowedSorts(['title', 'is_done', 'created_at'])
+            ->paginate();
 
         return new TaskCollection($tasks);
     }
