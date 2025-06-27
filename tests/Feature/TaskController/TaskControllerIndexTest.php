@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\TaskControllerIndexTest;
+namespace Tests\Feature\TaskController;
 
 use App\Models\Task;
 use App\Models\User;
