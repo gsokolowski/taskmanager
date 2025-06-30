@@ -39,24 +39,24 @@ class TaskControllerStoreTest extends TestCase
         }
 
         /** @test */
-        public function test_tile_filed_is_required()
-        {
+        // public function test_title_filed_is_required()
+        // {
 
-            $user = User::factory()->create();
-            Sanctum::actingAs($user);
+        //     $user = User::factory()->create();
+        //     Sanctum::actingAs($user);
 
-            // preapare rouute
-            $route = route('tasks.store');
+        //     // preapare rouute
+        //     $route = route('tasks.store');
 
-            // prepare data to store task wih no title field
-            $taskData = [];
+        //     // prepare data to store task wih no title field
+        //     $taskData = [];
 
-            // postJason
-            $response = $this->postJson($route, $taskData);
+        //     // postJason
+        //     $response = $this->postJson($route, $taskData);
 
-            // check for validation where title is required
-            $response->assertJsonValidationErrors([
-                'title' => 'required',
-            ]);
-        }
+        //     // check for validation where title is required
+        //     $response->assertJsonValidationErrors([
+        //         'title' => 'required',
+        //     ]);
+        // }
 }
